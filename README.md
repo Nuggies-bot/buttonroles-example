@@ -1,6 +1,8 @@
 # buttonroles-example
 Example for @Nuggies-bot NPM
 
+<image src = 'https://cdn.discordapp.com/attachments/801132115755270164/857108297688285204/TBbPNb4S7a.gif'>
+
 # setup
 ### create a file named `.env`
 ### copy the content of .env.example

@@ -6,21 +6,16 @@ const client = new Discord.Client();
 // require discord-buttons package
 require('discord-buttons')(client);
 const fs = require('fs');
-
-// Connect to the database
-Nuggies.giveaways.connect(process.env.mongoURI);
-
 // login to the bot
 client.login(process.env.BOT_TOKEN);
 
 client.on('ready', () => {
     console.log(`${client.user.tag} is online.`)
-    Nuggies.giveaways.startAgain(client);
 });
 
 // handle giveaway buttons
 client.on('clickButton', button => {
-    Nuggies.giveaways.buttonclick(client, button);
+    Nuggies.buttonroles.buttonclick(client, button);
 });
 
 client.commands = new Discord.Collection();

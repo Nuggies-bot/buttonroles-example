@@ -15,7 +15,7 @@ client.on('ready', () => {
 
 // handle giveaway buttons
 client.on('clickButton', button => {
-    Nuggies.buttonroles.buttonclick(client, button);
+    Nuggies.buttonclick(client, button);
 });
 
 client.commands = new Discord.Collection();

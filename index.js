@@ -13,10 +13,7 @@ client.on('ready', () => {
     console.log(`${client.user.tag} is online.`)
 });
 
-// handle giveaway buttons
-client.on('clickButton', button => {
-    Nuggies.buttonclick(client, button);
-});
+Nuggies.handleInteractions(client)
 
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();

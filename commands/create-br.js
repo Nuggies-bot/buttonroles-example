@@ -15,12 +15,12 @@ module.exports.run = async (client, message, args) => {
 	 * @param {Discord.Message} m
 	 */
 	const filter = m => m.author.id === message.author.id;
-	const collector = message.channel.createMessageCollector(filter, { max: Infinity });
+	const collector = message.channel.createMessageCollector({ filter, max: 25 });
 
 	collector.on('collect', async (msg) => {
 		if (!msg.content) return message.channel.send('Invalid syntax');
 		if (msg.content.toLowerCase() == 'done') return collector.stop('DONE');
-		const colors = ['grey', 'gray', 'red', 'blurple', 'green'];
+		const colors = ['SECONDARY', 'DANGER', 'PRIMARY', 'SUCCESS'];
 		if (!msg.content.split(' ')[0].match(/[0-9]{18}/g) || !colors.includes(msg.content.split(' ')[1])) return message.channel.send('Invalid syntax');
 
 		const role = msg.content.split(' ')[0];

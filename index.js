@@ -2,9 +2,7 @@ require('dotenv').config();
 const Discord = require('discord.js');
 // require Nuggies package
 const Nuggies = require('nuggies');
-const client = new Discord.Client();
-// require discord-buttons package
-require('discord-buttons')(client);
+const client = new Discord.Client({ intents: 32767 });
 const fs = require('fs');
 // login to the bot
 client.login(process.env.BOT_TOKEN);
@@ -45,21 +43,21 @@ client.on('message', async message => {
             if (!Array.isArray(command.config.botPerms)) return console.log('botPerms must be an array.');
             if (!command.config.userPerms) return console.log("You didn't provide userPerms.");
             if (!Array.isArray(command.config.userPerms)) return console.log('userPerms must be an array.')
-            if (!message.guild.me.hasPermission(command.config.botPerms)) {
+            if (!message.guild.me.permissions.has(command.config.botPerms)) {
                 const beauty = command.config.botPerms.join('\`, \`');
                 const noBotPerms = new Discord.MessageEmbed()
                     .setTitle('Missing Permissions')
                     .setDescription(`I am missing these permissions: \`${beauty}\`.`)
                     .setColor('RED');
-                return message.channel.send(noBotPerms)
+                return message.channel.send({ embeds: [noBotPerms] })
             }
-            if (!message.member.hasPermission(command.config.userPerms)) {
+            if (!message.member.permissions.has(command.config.userPerms)) {
                 const beauty = command.config.userPerms.join('\`, \`');
                 const noUserPerms = new Discord.MessageEmbed()
                     .setTitle('Missing Permissions')
                     .setDescription(`You are missing these permissions: \`${beauty}\`.`)
                     .setColor('RED');
-                return message.channel.send(noUserPerms)
+                return message.channel.send({ embeds: [noUserPerms] })
             }
 
             command.run(client, message, args);

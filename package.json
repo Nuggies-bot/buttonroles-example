@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Nuggies-bot/buttonroles-example#readme",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "nuggies": "^1.3.2"
+    "nuggies": "github:Nuggies-bot/nuggies-npm#dev"
   }
 }

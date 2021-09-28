@@ -7,28 +7,28 @@ const Discord = require('discord.js');
  * @param {String[]} args
  */
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, interaction, args) => {
 	const brmanager = new Nuggies.buttonroles();
-	message.channel.send('Send messages in `roleID color label emoji` syntax! Once finished say `done`.');
+	interaction.reply('Send messages in `roleID color label emoji` syntax! Once finished say `done`.');
 
 	/**
 	 * @param {Discord.Message} m
 	 */
-	const filter = m => m.author.id === message.author.id;
-	const collector = message.channel.createMessageCollector(filter, { max: Infinity });
+	const filter = m => m.author.id === interaction.user.id;
+	const collector = interaction.channel.createMessageCollector({ filter, max: 25 });
 
 	collector.on('collect', async (msg) => {
-		if (!msg.content) return message.channel.send('Invalid syntax');
+		if (!msg.content) return interaction.channel.send('Invalid syntax');
 		if (msg.content.toLowerCase() == 'done') return collector.stop('DONE');
-		const colors = ['grey', 'gray', 'red', 'blurple', 'green'];
-		if (!msg.content.split(' ')[0].match(/[0-9]{18}/g) || !colors.includes(msg.content.split(' ')[1])) return message.channel.send('Invalid syntax');
+		const colors = ['PRIMARY', 'SECONDARY', 'DANGER', 'SUCCESS'];
+		if (!msg.content.split(' ')[0].match(/[0-9]{18}/g) || !colors.includes(msg.content.split(' ')[1])) return interaction.channel.send('Invalid syntax');
 
 		const role = msg.content.split(' ')[0];
 		// const role = message.guild.roles.cache.get(roleid);
-		if (!role) return message.channel.send('Invalid role');
+		if (!role) return interaction.channel.send('Invalid role');
 
 		const color = colors.find(color => color == msg.content.split(' ')[1]);
-		if (!color) return message.channel.send('Invalid color');
+		if (!color) return interaction.channel.send('Invalid color');
 
 		const label = msg.content.split(' ').slice(2, msg.content.split(' ').length - 1).join(' ');
 
@@ -47,16 +47,20 @@ module.exports.run = async (client, message, args) => {
 				.setDescription('Click on the buttons to get the specific role or vice-versa')
 				.setColor('RANDOM')
 				.setTimestamp();
-			Nuggies.buttonroles.create({ message, content: embed, role: brmanager, channelID: message.channel.id })
+			Nuggies.buttonroles.create(client, { content: embed, role: brmanager, channelID: interaction.channel.id })
 		}
 	})
 };
 
 module.exports.config = {
-	name: 'create-br',
+	name: 'createbr',
 	description: 'Creates button role!',
-	usage: '?create-br',
+	usage: '/createbr',
 	botPerms: [],
 	userPerms: ['MANAGE_GUILD'],
-	aliases: [],
+	data: {
+		name: 'createbr',
+		defaultPermission: true,
+		description: 'Creates buttonroles',
+	},
 };
